@@ -1,9 +1,33 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from "react-redux";
+import { addContact } from '../../redux/contactsSlice';
+import { getContacts } from '../../redux/selectors';
 import { Form, ButtonAdd } from './ContactForm.styled';
 
-const ContactForm = ({onSubmit}) => {
+const ContactForm = () => {
+
+    const dispatch = useDispatch();
+    const contacts = useSelector(getContacts);
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        const { name, number } = event.currentTarget;
+
+        const isContactExist = contacts.some(
+            contact => contact.name === name.value
+        );
+        
+        if (isContactExist) {
+            alert(`${name.value} is already in contacts`);
+            event.currentTarget.reset();
+            return;
+        }
+
+        dispatch(addContact(name.value, number.value));
+        event.currentTarget.reset();
+      };
+
     return (
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={handleSubmit}>
             <label htmlFor="name">
                 Name: 
             </label>
@@ -31,8 +55,4 @@ const ContactForm = ({onSubmit}) => {
     )
 }
 
-ContactForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-  };
-  
 export default ContactForm;

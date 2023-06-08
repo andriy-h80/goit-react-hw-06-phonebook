@@ -7,4 +7,3 @@ export const rootReducer = combineReducers({
   contacts: contactsReducer,
   filter: filterReducer,
 });
-

@@ -13,7 +13,7 @@ const ContactForm = () => {
         const { name, number } = event.currentTarget;
 
         const isContactExist = contacts.some(
-            contact => contact.name === name.value
+            contact => contact.name.toLowerCase() === name.value.toLowerCase()
         );
         
         if (isContactExist) {
